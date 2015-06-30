@@ -174,16 +174,16 @@ var GraphView = Backbone.View.extend({
         /*always use x0 = current mouse x location as x-bisection; 
         y-bisection is set to closest stock line*/
         var bis = bisectDate(lineData[i], x0);
-        if (lineData[i][bis-1]) {
+        if (!lineData[i][bis] || !lineData[i][bis - 1]) {
+          return;
+        }
+        if (lineData[i][bis - 1]) {
           // compare the distance of the dates
-          var ahead = x0 - lineData[i][bis-1].date;
+          var ahead = x0 - lineData[i][bis - 1].date;
           var behind = lineData[i][bis].date - x0;
           if (ahead < behind) {
-            bis = bis-1;
+            bis = bis - 1;
           }
-        }
-        if (!lineData[i][bis]) {
-          return;
         }
         var ydistance = Math.abs(lineData[i][bis].value - y0);
         if (ydistance <= max && lineData[i][bis].value !== 0) {
