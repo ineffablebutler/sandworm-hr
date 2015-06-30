@@ -11,10 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/sandworm-hr/sandworm-hr.git"
   },
-  "keywords": [
-    "stock",
-    "trading"
-  ],
+  "keywords": ["stock", "trading"],
   "author": "Paul Sokolik, Tamara Woodson, Edwin Lin",
   "license": "ISC",
   "bugs": {

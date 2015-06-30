@@ -4,18 +4,52 @@
     <title>Portfol.io</title>
     <link rel="shortcut icon" href="http://faviconist.com/icons/7e6cfee3826b3dabc4b5a106da6cb121/favicon.ico" />
     <!-- Dependencies -->
-    <script src="assets/js/d3.min.js"></script>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/underscore-min.js"></script>
-    <script src="assets/js/backbone-min.js"></script>
-    <script src="assets/validator.min.js"></script>
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/bootstrap.icon-large.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <script src="lib/js/jquery.min.js"></script>
+    <script src="lib/js/d3.min.js"></script>
+    <script src="lib/js/underscore-min.js"></script>
+    <script src="lib/js/backbone-min.js"></script>
+    <script src="lib/js/validator.min.js"></script>
+    <script src="assets/js/semantic.js"></script>
+    <link rel="stylesheet" href="assets/css/semantic.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 
   </head>
   <body>
-    <div class="container-fluid" id="main"></div>
+    <div class="ui container" id="main">
+
+      <div class="ui menu">
+          <div class="ui text container">
+            <div href="#" class="header item">
+              <img class="logo" src="assets/images/logo.png">
+              Project Name
+            </div>
+            <a href="#" class="item">Blog</a>
+            <a href="#" class="item">Articles</a>
+            <a href="#" class="ui right floated dropdown item" tabindex="0">
+              Dropdown <i class="dropdown icon"></i>
+              <div class="menu" tabindex="-1">
+                <div class="item">Link Item</div>
+                <div class="item">Link Item</div>
+                <div class="divider"></div>
+                <div class="header">Header Item</div>
+                <div class="item">
+                  <i class="dropdown icon"></i>
+                  Sub Menu
+                  <div class="menu">
+                    <div class="item">Link Item</div>
+                    <div class="item">Link Item</div>
+                  </div>
+                </div>
+                <div class="item">Link Item</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div ></div>
+
+
+    </div>
 
     <!-- Models -->
     <script src="app/models/StockModel.js"></script>
