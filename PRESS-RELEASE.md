@@ -17,28 +17,28 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 ## Heading ##
-  > What-If Invest
+  > Portfol.io
 
 ## Sub-Heading ##
   > A product to help novice investors create and manage a virtual portfolio
 
 ## Summary ##
-  > What-If Invest lets users see results for hypothetical investments. Choose one or more stocks and view performance over any period of time at one glance.
+  > Portfol.io lets users see results for hypothetical investments. Choose one or more stocks and view performance over any period of time at one glance.
 
 ## Problem ##
   > Investing can be intimidating to novice investors.
 
 ## Solution ##
-  > What-If Invest breaks down the process of investing into 3 easy steps and gives immediate feedback with no real risk.
+  > Portfol.io breaks down the process of investing into 3 easy steps and gives immediate feedback with no real risk.
 
 ## Quote from Paul, Product Owner ##
-  > "Every beginner to investing should check out What-If Invest." - Paul, Product Owner
+  > "Every beginner to investing should check out Portfol.io." - Paul, Product Owner
 
 ## How to Get Started ##
   > To get started, ...
 
 ## Customer Quote ##
-  > "Before What-If Invest, I was terrified of the stock market. Now, I have the confidence to try out investing in real life." - Anonymous
+  > "Before Portfol.io, I was terrified of the stock market. Now, I have the confidence to try out investing in real life." - Anonymous
 
 ## Closing and Call to Action ##
-  > If you want to invest but don't know where to start, try out What-If Invest today!
+  > If you want to invest but don't know where to start, try out Portfol.io today!
