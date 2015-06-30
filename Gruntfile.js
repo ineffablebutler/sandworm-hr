@@ -1,62 +1,27 @@
 'use strict';
-
-module.exports = function(grunt) {
-
+module.exports = function (grunt) {
+  require('load-grunt-tasks')(grunt);
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-
     nodemon: {
       dev: {
         script: 'server.js'
       }
     },
-
     jshint: {
-      files: [
-        '**/*.js',
-      ],
+      files: ['**/*.js', ],
       options: {
         force: 'true',
         jshintrc: '.jshintrc',
-        ignores: [
-          'client/assets/**/*.js',
-          'node_modules/**/*.js',
-          '**/node_modules/**/*.js',
-          'bower_components/**/*.js',
-          '**/bower_components/**/*.js'
-        ]
+        ignores: ['client/assets/**/*.js', 'node_modules/**/*.js', '**/node_modules/**/*.js']
       }
     },
-
-    "bower-install-simple": {
-      options: {
-        color: true,
-        directory: 'bower_components'
-      },
-      "prod": {
-        options: {
-          production: true
-        }
-      },
-      "dev": {
-        options: {
-          production: false
-        }
-      }
-    },
-
     watch: {
       scripts: {
-        files: [
-          '**/*.js',
-          './*.js',
-        ],
-        tasks: [
-          'jshint',
-        ]
+        files: ['**/*.js', './*.js', ],
+        tasks: ['jshint', ]
       },
     },
-
     concurrent: {
       dev: {
         tasks: ['nodemon', 'watch'],
@@ -64,30 +29,45 @@ module.exports = function(grunt) {
           logConcurrentOutput: true
         }
       }
+    },
+    copy: {
+      main: {
+        files: [
+          // includes files within path
+          {
+            expand: true,
+            src: ['node_modules/backbone/node_modules'],
+            dest: 'dest/',
+            filter: 'isFile'
+          },
+          // includes files within path and its sub-directories
+          {
+            expand: true,
+            src: ['path/**'],
+            dest: 'dest/'
+          },
+          // makes all src relative to cwd
+          {
+            expand: true,
+            cwd: 'path/',
+            src: ['**'],
+            dest: 'dest/'
+          },
+          // flattens results to a single level
+          {
+            expand: true,
+            flatten: true,
+            src: ['path/**'],
+            dest: 'dest/',
+            filter: 'isFile'
+          },
+        ],
+      },
     }
   });
-
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-shell');
-  grunt.loadNpmTasks('grunt-nodemon');
-  grunt.loadNpmTasks('grunt-concurrent');
-  grunt.loadNpmTasks('grunt-bower-install-simple');
-
   ////////////////////////////////////////////////////
   // Main grunt tasks
   ////////////////////////////////////////////////////
-
-  grunt.registerTask('mon', [
-    'jshint',
-    'concurrent'
-  ]);
-
-
-
-  grunt.registerTask('default', [
-    'jshint',
-    'bower-install-simple',
-    'concurrent'
-  ]);
+  grunt.registerTask('mon', ['jshint', 'concurrent']);
+  grunt.registerTask('default', ['jshint', 'concurrent']);
 };
