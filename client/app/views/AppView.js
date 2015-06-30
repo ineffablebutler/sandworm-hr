@@ -3,16 +3,14 @@ var AppView = Backbone.View.extend({
 
   el:'#main',
 
-  navDiv: '<nav class="navbar navbar-inverse navbar-static-top"> \
-             <div class="container-fluid"> \
-               <a href="#front" class="navbar-brand">Portfol.io</a> \
-               <ul class="nav nav-pills navbar-nav navbar-right"> \
-                 <li><a href="#signup">Sign Up</a></li> \
-                 <li><a href="#signin">Sign In</a></li> \
-                 <li><a href="#about">About Us</a></li> \
-               </ul> \
+  navDiv: '<div class="ui menu"> \
+             <div class="ui text container"> \
+               <a href="#front" class="header item">Portfol.io</a> \
+               <a href="#signup">Sign Up</a></li> \
+               <a href="#signin">Sign In</a></li> \
+               <a href="#about">About Us</a></li> \
              </div> \
-          </nav> \
+          </div> \
           <div class="username-verification text-right"></div>',
 
   template: _.template('<nav class="navbar navbar-inverse navbar-static-top"> \
