@@ -24,7 +24,7 @@ module.exports = function (grunt) {
     },
     concurrent: {
       dev: {
-        tasks: ['nodemon', 'watch'],
+        tasks: ['nodemon'],
         options: {
           logConcurrentOutput: true
         }
@@ -68,6 +68,6 @@ module.exports = function (grunt) {
   ////////////////////////////////////////////////////
   // Main grunt tasks
   ////////////////////////////////////////////////////
-  grunt.registerTask('mon', ['jshint', 'concurrent']);
-  grunt.registerTask('default', ['jshint', 'concurrent']);
+  grunt.registerTask('mon', ['concurrent']);
+  grunt.registerTask('default', ['concurrent']);
 };
