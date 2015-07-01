@@ -14,8 +14,7 @@ var Stocks = require('./db/collections/stocks');
 var Stock = require('./db/models/stock');
 var Portfolio = require('./db/models/portfolio');
 
-
-
+var authRouter = require('./routes/auth');
 
 var app = express();
 app.use(session({
@@ -27,37 +26,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/client'));
 
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
-});
-
-passport.use(new LocalStrategy( function(username, password, done) {
-  new User({username: username}).fetch().then(function(found){
-      if(found){
-        bcrypt.compare(password, found.get('password'), function(error , result){
-          if(result){
-            return done(null, found);
-          } else {
-            return done(null, false, {message: 'incorrect password'});
-          }
-        });
-      } else {
-        return done(null, false, {message: 'incorrect username'});
-      }
-    });
-}));
-
-var ensureAuthenticated = function (req, res) {
-  if (req.isAuthenticated()) { res.status(202).send(req.user.username); }
-  else { res.status(401).send('please sign in'); }
-};
-
 app.use(passport.initialize());
 app.use(passport.session());
+app.use('/auth', authRouter);
+
 
 app.get('/signout', function(req, res){
   req.session.destroy();
@@ -90,8 +62,6 @@ app.post('/signup', function(req, res){
   });
 
 });
-
-app.get('/auth', ensureAuthenticated);
 
 app.get('/portfolios', function(req, res) {
   var id = req.user.id;
