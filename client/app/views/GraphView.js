@@ -3,7 +3,7 @@ find more information on mbostock's page for charting line charts: http://bl.ock
 
 var GraphView = Backbone.View.extend({
 
-  className: 'graph col-xs-12 col-md-7',
+  className: 'graph',
 
   initialize: function () {
     this.collection.on('sync edited remove reset', this.render, this);
@@ -26,7 +26,7 @@ var GraphView = Backbone.View.extend({
         bottom: 10,
         left: 10
       },
-      outerWidth = parseInt(d3.select('.col-md-7').style('width')), //700,
+      outerWidth = parseInt(d3.select('.graph').style('width')), //700,
       outerHeight = 300,
       innerWidth = outerWidth - margin.left - margin.right,
       innerHeight = outerHeight - margin.top - margin.bottom,
