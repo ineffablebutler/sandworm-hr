@@ -1,7 +1,6 @@
 // Backbone view for portfolio information
 var PortfolioView = Backbone.View.extend({
-
-
+  
   className: 'row',
 
   template: _.template('<div class="info-item portfolio col-md-offset-1" id="<%=id%>"><i class="glyphicon glyphicon-folder-open"></i>    <%= name %></div>'),

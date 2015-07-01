@@ -3,30 +3,6 @@ var AppView = Backbone.View.extend({
 
   el:'#main',
 
-  navDiv: '<div class="ui menu"> \
-             <div class="ui text container"> \
-               <a href="#front" class="header item">Portfol.io</a> \
-               <a href="#signup">Sign Up</a></li> \
-               <a href="#signin">Sign In</a></li> \
-               <a href="#about">About Us</a></li> \
-             </div> \
-          </div> \
-          <div class="username-verification text-right"></div>',
-
-  template: _.template('<nav class="navbar navbar-inverse navbar-static-top"> \
-                          <div class="container-fluid"> \
-                            <a href="#front" class="navbar-brand">Portfol.io</a> \
-                            <ul class="nav nav-pills navbar-nav navbar-right"> \
-                              <li class="username-container">Signed in as <strong class="username"><%= username %></strong></li>\
-                              <li><a href="#signout">Sign Out</a></li>\
-                              <li><a href="#portfolios">My Portfolios</a></li> \
-                              <li><a href="#new">New Portfolio</a></li> \
-                              <li><a href="#about">About Us</a></li> \
-                            </ul> \
-                          </div> \
-                        </nav> \
-                        <div class="username-verification text-right"></div>'),
-
   initialize: function(){
     this.formView = new FormView({collection: this.collection});
     this.dashboardView = new DashboardView({collection: this.collection});
@@ -49,12 +25,7 @@ var AppView = Backbone.View.extend({
     this.formView.delegateEvents();
     this.dashboardView.delegateEvents();
     this.dashboardView.infoView.delegateEvents();
-    var navbar = $(this.navDiv);
-    if (this.model.get('signedin')) {
-      navbar = this.template(this.model.attributes);
-    }
     this.$el.append([
-      navbar,
       view.$el,
       this.dashboardView.$el
     ]);
@@ -91,12 +62,10 @@ var AppView = Backbone.View.extend({
   portfolios: function () {
     this.$el.empty();
     this.portfoliosView = new PortfoliosView({collection: this.collection});
-    var navbar = $(this.navDiv);
     if (this.model.get('signedin')) {
       navbar = this.template(this.model.attributes);
     }
     this.$el.append([
-      navbar,
       this.portfoliosView.$el
     ]);
   }
