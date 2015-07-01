@@ -6,94 +6,42 @@ var session = require('express-session');
 var bcrypt = require('bcrypt-nodejs');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-
 var db = require('./db/config');
 var Users = require('./db/collections/users');
 var User = require('./db/models/user');
 var Stocks = require('./db/collections/stocks');
 var Stock = require('./db/models/stock');
 var Portfolio = require('./db/models/portfolio');
-
+var signoutRouter = require('./routes/signout');
+var signinRouter = require('./routes/signin');
+var signupRouter = require('./routes/signup');
 var authRouter = require('./routes/auth');
-
+var portfoliosRouter = require('./routes/portfolios');
+var stockRouter = require('./routes/stock');
+var stocksRouter = require('./routes/stocks');
+var apiRouter = require('./routes/api');
 var app = express();
 app.use(session({
   secret: 'SPLEWT',
+  resave: true,
+  saveUninitialized: true
 }));
-
 app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/client'));
-
 app.use(passport.initialize());
 app.use(passport.session());
+app.use('/signout', signoutRouter);
+app.use('/signin', signinRouter);
+app.use('/signup', signupRouter);
 app.use('/auth', authRouter);
-
-
-app.get('/signout', function(req, res){
-  req.session.destroy();
-  res.send(202);
-});
-
-app.post('/signin',
-  passport.authenticate('local'), function(req, res) {
-    res.send('success!');
-  }
-);
-
-app.post('/signup', function(req, res){
-  var username = req.body.username;
-  var password = req.body.password;
-  new User({username: username}).fetch().then(function(found){
-    if(found){
-      res.status(400).send('username exists');
-    } else {
-      var user = new User({
-        username: username,
-        password: password
-      });
-      user.save().then(function(newUser){
-        passport.authenticate('local') (req, res, function() {
-          res.send(newUser);
-        });
-      });
-    }
-  });
-
-});
-
-app.get('/portfolios', function(req, res) {
-  var id = req.user.id;
-  new Portfolio().query('where', 'users_id', '=', id).fetchAll().then(function(portfolios) {
-    res.send(portfolios);
-  });
-});
-
-app.post('/portfolios', function(req, res) {
-  var name = req.body.name;
-  var id = req.user.id;
-  new Portfolio({'name': name, 'users_id': id}).save().then(function(newPortfolio) {
-    res.send(newPortfolio);
-  });
-});
-
-app.post('/stock', function(req, res) {
-  new Stock(req.body).save().then(function(newStock) {
-    res.send(newStock);
-  });
-});
-
-app.post('/stocks', function(req, res) {
-  var id = req.body.id;
-  new Stock().query('where','portfolios_id', '=', id).fetchAll().then(function(stocks) {
-    res.send(stocks);
-  });
-});
-
-app.use('/api/stocks', handler.getStocks);
-
+app.use('/portfolios', portfoliosRouter);
+app.use('/stock', stockRouter);
+app.use('/stocks', stocksRouter);
+app.use('/api', apiRouter);
 var port = process.env.PORT || 8080;
-
 app.listen(port);
 console.log('Listening to: ' + port);
