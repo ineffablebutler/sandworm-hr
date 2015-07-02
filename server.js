@@ -20,6 +20,7 @@ var portfoliosRouter = require('./routes/portfolios');
 var stockRouter = require('./routes/stock');
 var stocksRouter = require('./routes/stocks');
 var apiRouter = require('./routes/api');
+var autoRouter = require('./routes/auto')
 var app = express();
 app.use(session({
   secret: 'SPLEWT',
@@ -42,6 +43,7 @@ app.use('/portfolios', portfoliosRouter);
 app.use('/stock', stockRouter);
 app.use('/stocks', stocksRouter);
 app.use('/api', apiRouter);
+app.use('/auto', autoRouter);
 var port = process.env.PORT || 8080;
 app.listen(port);
 console.log('Listening to: ' + port);

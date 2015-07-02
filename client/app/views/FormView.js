@@ -1,5 +1,7 @@
+
 // Backbone view for the stock submission form
 var FormView = Backbone.View.extend({
+
 
   className: 'form container',
 
@@ -8,10 +10,10 @@ var FormView = Backbone.View.extend({
         <div class="row"> \
           <div class="col-sm-4 col-sm-offset-4 well text-center" id="select-form">\
             <form data-toggle="validator" role="form">\
-              <div class="form-group"> \
+              <div class="ui search"> \
                 <label for="symbol">Stock Symbol</label>\
-                <input pattern="[a-zA-Z0-9-]{1,6}" maxlength="6" type="text" id="symbol" class="form-control" data-error="Invalid Stock Ticker" required>\
-                <div class="error-message help-block with-errors"></div>\
+                <input class="prompt" pattern="[a-zA-Z0-9-]{1,15}" maxlength="15" type="text" id="symbol" required>\
+                <div class="results"></div>\
               </div> \
               <div class="form-group"> \
                 <label for="date">Date</label>\
@@ -44,14 +46,43 @@ var FormView = Backbone.View.extend({
   events: {
     //Form submission form
     'submit': 'handleSubmit',
-    'keypress': 'clearErrors'
+    'keyup': 'searchAPI'
   },
 
-  clearErrors: function(){
+  searchAPI: function(){
+    var query = this.$('#symbol').val();
     $('.error-message').text('');
+    if(query.length>0){
+      //should be making request to server to get info, not on client side
+      $.ajax({
+        type: 'GET',
+        url:'/auto',
+        data: {data: query},
+        success: function (response) {
+          parsed = (JSON.parse(response.slice(39,response.length-1 ))).ResultSet.Result;
+          var suggestions = [];
+          //format array
+          for(var i = 0; i<parsed.length; i++){
+            suggestions.push({title:parsed[i].name + " (" + parsed[i].symbol + ")", symbol: parsed[i].symbol});
+          };
+          $('.ui.search').search({
+              source : suggestions,
+              searchFields: ['title', 'symbol'],
+              searchFullText: true,
+              cache: true,
+            });
+          // $('.ui.search').search({searchFields:['name','symbol'], source: suggestions });
+        },
+        error: function() {
+          console.log("nopee!");
+        }
+      });
+    }
   },
 
   handleDuplicates: function(params) {
+    console.log("params", params);
+    console.log("stocks", this.collection);
     var stocks = this.collection;
 
     var existingStock = stocks.findStock(params.symbol);
@@ -80,11 +111,13 @@ var FormView = Backbone.View.extend({
   handleSubmit: function(e) {
     e.preventDefault();
     //start spinner upon stock creation
-    if (this.$('form')[0].checkValidity()) {
+    if (this.$('.prompt') !== '') {
       this.startSpinner(); 
       var d = new Date();
+      var regExp = /\(([^)]+)\)/;
+      var matches = regExp.exec(this.$('#symbol').val());
       var requestStock = {
-        symbol: this.$('#symbol').val().toUpperCase(),
+        symbol: matches[1].toUpperCase(),
         from: this.$('#date').val(),
         amount: this.$('#amount').val(),
         to: d.toISOString().slice(0,10) //Just the YYYY-MM-DD portion
