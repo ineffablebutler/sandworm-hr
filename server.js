@@ -20,6 +20,7 @@ var portfoliosRouter = require('./routes/portfolios');
 var stockRouter = require('./routes/stock');
 var stocksRouter = require('./routes/stocks');
 var apiRouter = require('./routes/api');
+var request = require('request');
 var app = express();
 app.use(session({
   secret: 'SPLEWT',
@@ -42,6 +43,17 @@ app.use('/portfolios', portfoliosRouter);
 app.use('/stock', stockRouter);
 app.use('/stocks', stocksRouter);
 app.use('/api', apiRouter);
+//added this here for autoComplete
+app.get('/auto', function (req, res) {
+  var query = req.query.data;
+  var url = "http://autoc.finance.yahoo.com/autoc?query=" + query + "&callback=YAHOO.Finance.SymbolSuggest.ssCallback";
+  request(url, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      res.send(body);
+    }
+  });
+});
+
 var port = process.env.PORT || 8080;
 app.listen(port);
 console.log('Listening to: ' + port);
